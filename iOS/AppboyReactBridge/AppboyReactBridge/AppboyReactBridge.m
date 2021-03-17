@@ -299,6 +299,19 @@ RCT_EXPORT_METHOD(launchNewsFeed) {
   [mainViewController presentViewController:feedModal animated:YES completion:nil];
 }
 
+RCT_REMAP_METHOD(closeContentCard, closeContentCardWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  RCTLogInfo(@"closeContentCard called");
+  UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+  UIViewController *mainViewController = keyWindow.rootViewController;
+  if ([mainViewController.presentedViewController isKindOfClass:[ABKContentCardsViewController class]]){
+      [(ABKContentCardsViewController*)mainViewController.presentedViewController dismissViewControllerAnimated:YES completion: ^() {
+          resolve(nil);
+      }];
+  } else {
+      reject(@"not_open", @"The content card is not open", nil);
+  }
+}
+
 - (void)handleContentCardsUpdated:(NSNotification *)notification {
   BOOL updateIsSuccessful = [notification.userInfo[ABKContentCardsProcessedIsSuccessfulKey] boolValue];
   if (hasListeners && updateIsSuccessful) {

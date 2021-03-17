@@ -340,6 +340,12 @@ export function setAttributionData(
 export function launchNewsFeed(): void;
 
 // Content Cards
+
+/**
+ * Closes the Content Card UI element.
+ */
+export function closeContentCard(): Promise<void>;
+
 interface ContentCardType {
   CLASSIC: 'Classic',
   BANNER: 'Banner',
